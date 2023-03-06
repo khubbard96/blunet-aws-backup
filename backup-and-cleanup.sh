@@ -26,6 +26,12 @@ echo "Uploading backup to S3..."
 aws s3 cp $BACKUP_DIR/$TARGET $S3_BUCKET_URL
 echo "done"
 
+if [[ -z ${WEBHOOK} ]];
+then
+    echo "Pinging $WEBHOOK"
+    curl -m 10 --retry 5 $WEBHOOK_URL
+fi
+
 if [[ ${CLEAR_BACKUPS} = "true" ]];
 then
     echo "Clearing $BACKUP_DIR of all files of type .$FILE_EXTENSION"
