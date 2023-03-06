@@ -24,15 +24,29 @@ fi
 
 echo "Uploading backup to S3..."
 aws s3 cp $BACKUP_DIR/$TARGET $S3_BUCKET_URL
-echo "done"
 
-if [[ -z ${WEBHOOK} ]];
-then
-    echo "Pinging $WEBHOOK"
-    curl -m 10 --retry 5 $WEBHOOK_URL
+if [[ $? = "0" ]]; then
+    echo "Upload successful"
+
+    if [[ -n ${WEBHOOK} ]];
+    then
+        echo "Pinging $WEBHOOK"
+        curl -i -s -m 10 --retry 5 -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"content\": \"S3 backup successful.\"}" $WEBHOOK
+    fi
+else
+    echo "Upload unsuccessful, code $?"
+
+    if [[ -n ${WEBHOOK} ]];
+    then
+        echo "Pinging $WEBHOOK"
+        curl -i -s -m 10 --retry 5 -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"content\": \"S3 backup unsuccessful. Error $?.\"}" $WEBHOOK
+    fi
+
+    return 0
 fi
 
-if [[ ${CLEAR_BACKUPS} = "true" ]];
+
+if [[ ${CLEAR_BACKUPS} = true ]];
 then
     echo "Clearing $BACKUP_DIR of all files of type .$FILE_EXTENSION"
     rm -rf $BACKUP_DIR/*.$FILE_EXTENSION
