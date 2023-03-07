@@ -9,7 +9,8 @@ RUN \
 
 COPY docker-entrypoint.sh /
 COPY backup-and-cleanup.sh /
+COPY restore-backup.sh /
 
-RUN chmod +x /docker-entrypoint.sh /backup-and-cleanup.sh
+RUN chmod +x /docker-entrypoint.sh /backup-and-cleanup.sh /restore-backup.sh
 
 ENTRYPOINT /docker-entrypoint.sh
