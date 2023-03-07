@@ -23,6 +23,7 @@ fi
 echo "Searching for ${1} in $S3_BUCKET_URL"
 S3_TARGET=$(aws s3 ls $S3_BUCKET_URL | awk '{print $4}' | grep "${1}")
 if [[ -n ${S3_TARGET} ]];
+then
     echo "Target backup found on s3: ${1}"
 else
     echo "No backup matching ${1} was found in s3 bucket $S3_BUCKET_URL. Exiting."
