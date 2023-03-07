@@ -53,7 +53,7 @@ rm -rf $BACKUP_TARGET_DIR/*
 
 echo "Loading backup into $BACKUP_TARGET_DIR"
 
-unzip /${1} -d $BACKUP_TARGET_DIR
+unzip -o /${1} -d $BACKUP_TARGET_DIR
 
 echo "Backup restored on local target"
 
