@@ -55,10 +55,13 @@ unzip -o /${1} -d $BACKUP_TARGET_DIR
 
 echo "Backup restored on local target"
 
+rm -f /${1}
+
+BACKUP_RESTORED_NAME='```\n'$1'\n```'
 
 #ping webhook with some data
 if [[ -n ${WEBHOOK} ]];
 then
     echo "Pinging $WEBHOOK"
-    curl -i -s -m 10 --retry 5 -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"content\": \"A backup from s3 was restored: ${1}.\"}" $WEBHOOK    
+    curl -i -s -m 10 --retry 5 -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"content\": \"A backup from s3 was restored: $BACKUP_RESTORED_NAME\"}" $WEBHOOK    
 fi
