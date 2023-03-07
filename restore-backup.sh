@@ -47,11 +47,9 @@ then
     return 0
 fi
 
-echo "Matching local target directory found. Clearing..."
+echo "Matching local target directory found."
 
-rm -rf $BACKUP_TARGET_DIR/*
-
-echo "Loading backup into $BACKUP_TARGET_DIR"
+echo "Loading backup into $BACKUP_TARGET_DIR. Existing files and directories will be overwritten"
 
 unzip -o /${1} -d $BACKUP_TARGET_DIR
 

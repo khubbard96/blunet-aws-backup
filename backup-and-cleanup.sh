@@ -19,9 +19,14 @@ then
     return 0
 fi
 
+if [[ -z ${NUM_MOST_RECENT_FILES} ]];
+then
+    NUM_MOST_RECENT_FILES=1
+fi
+
 #try to find the target backup name. gets the most recent modified .zip file in the specified backup directory
 echo "Trying to find most recent backup with file type .$FILE_EXTENSION in directory $BACKUP_SOURCE_DIR"
-TARGET=$(ls -Art ${BACKUP_SOURCE_DIR} | grep ".${FILE_EXTENSION}$" | tail -n 1)
+TARGET=$(ls -Art ${BACKUP_SOURCE_DIR} | grep ".${FILE_EXTENSION}$" | tail -n $NUM_MOST_RECENT_FILES)
 if [[ -z ${TARGET} ]]; then
     echo "A target backup of file type .$FILE_EXTENSION could not be found in directory $BACKUP_SOURCE_DIR. Exiting."
     return 0
