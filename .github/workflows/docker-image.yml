@@ -27,4 +27,4 @@ jobs:
         with:
           push: true
           tags: khubbard96/blunet-aws-backup:latest
-          platforms: linux
+          platforms: linux/amd64,linux/arm64
